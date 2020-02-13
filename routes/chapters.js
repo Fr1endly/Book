@@ -1,27 +1,48 @@
-import uuidv4 from 'uuid'
-import models from '../models'
-import { Router } from 'express'
-
+import uuidv4 from 'uuid';
+import models from '../models';
+import { Router } from 'express';
+import Chapter from '../models/Chapter'
 const router = Router();
 
-router.get('/', (req, res) => {
-    return res.send(Object.values(models.chapters));
+router.get('/', async (req, res) => {
+    try{
+      const chapters = await Chapter.find().sort({ index: +1 })
+      res.json(chapters)
+    } catch(err) {
+      console.log(err.message)
+      res.status(500).send('Server error')
+    }
   })
 
 router.get("/:chapterId", (req, res) => {
     return res.send(models.chapters[req.params.chapterId]);
 });
 
-router.post("/", (req, res) => {
-    const id = uuidv4()
-    const chapter = {
-      id,
-      title: req.body.title,
-      userId: req.me.id,
-      sections: req.body.sections,
+router.post("/", 
+  async (req, res) => {
+    const { title, index, sections } = req.body
+
+    try{
+      let chapter = await Chapter.findOne({ title })
+      if (chapter) {
+        return res
+        .status(400)
+        .json({ errors: [{ msg: 'This title already taken.'}]})
+      }
+
+      chapter = new Chapter({
+        title,
+        index,
+        sections
+      })
+      await chapter.save()
+      res.json(chapter)
+    } catch (err) {
+      console.log(err.message)
+      res.status(500).send('Server error.')
+
     }
-    models.chapters[id] = chapter
-    res.send(chapter)
+
   });
 router.put("/:chapterId", (req, res) => {
     const id = req.params.chapterId

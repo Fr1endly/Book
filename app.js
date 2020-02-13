@@ -8,6 +8,7 @@ import models, { connectDB } from './models'
 import uuidv4 from 'uuid'
 import routes from './routes'
 import User from './models/User'
+import Chapter from './models/Chapter'
 
 var app = express();
 dotenv.config();
