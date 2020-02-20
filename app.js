@@ -29,17 +29,9 @@ app.use((req, res, next)=>{
 // ROUTES
 // Users
 app.use('/api/users', routes.userRouter)
+//Auth
+app.use('/api/auth', routes.authRouter)
 //  Chapters
 app.use('/api/chapters', routes.chaptersRouter)
-// error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get("env") === "development" ? err : {};
-
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render("error");
-// });
 
 module.exports = app;

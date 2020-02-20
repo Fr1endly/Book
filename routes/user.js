@@ -1,27 +1,33 @@
 import uuidv4 from 'uuid'
 import models from '../models'
+import bcrypt from 'bcrypt'
 import express, { response } from 'express'
 import User from '../models/User'
-import { check, validationResults } from 'express-validator'
+import { check, validationResult } from 'express-validator'
 
 const router = express.Router();
-
-router.get('/', (req, res) => {
-    return res.send(Object.values(models.users));
-  });
 
 // @route POST api/users
 // @desc Register user
 // @access Public
-//// IMPLEMENT PASSWORD HASHING 
 router.post(
-    '/',
+    '/', [
+        check('name', 'Name is required.').not().isEmpty(),
+        check('email', 'Please provide valid email.').isEmail(),
+        check('password', 'Enter password with 8 or more characters.')
+            .isLength({ min: 6})
+        
+    ],
     async (req, res) => {
+        const errors = validationResult(req)
+        if(!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+
         const { name, email, password } = req.body;
 
         try { 
             let user = await User.findOne({ email })
-
             if (user) {
                 return res
                 .status(400)
@@ -33,7 +39,11 @@ router.post(
                 email,
                 password
             })
-            await user.save()
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(password, salt)
+
+            await user.save();
+
             res.json({msg: 'User successfully registered'})
         } catch(err) {
             console.error(err.message)
@@ -41,13 +51,5 @@ router.post(
         }
     }
 );
-router.get('/:userId', (req, res) => {
-    return res.send(models.users[req.params.userId]);
-});
-router.delete('/:userId', (req, res) => {
-    return res.send(
-        `DELETE HTTP method on user/${req.params.userId} resource`,
-    );
-});
 
 export default router
