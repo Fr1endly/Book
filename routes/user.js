@@ -1,6 +1,7 @@
 import uuidv4 from 'uuid'
 import models from '../models'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 import express, { response } from 'express'
 import User from '../models/User'
 import { check, validationResult } from 'express-validator'
@@ -41,10 +42,22 @@ router.post(
             })
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password, salt)
-
             await user.save();
 
-            res.json({msg: 'User successfully registered'})
+            const payload = { 
+                user: {
+                    id: user.id
+                }
+            }
+            jwt.sign(
+                payload,
+                process.env.JWT_SECRET,
+                { expiresIn: 36000 },
+                (err, token) => {
+                    if (err) throw err;
+                    res.json({ token })
+                }
+            )
         } catch(err) {
             console.error(err.message)
             res.status(500).send('Server error ')

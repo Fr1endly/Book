@@ -1,14 +1,11 @@
-import createError from 'http-errors'
+import cors from 'cors'
 import express from 'express'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import dotenv from 'dotenv'
 import models, { connectDB } from './models'
-import uuidv4 from 'uuid'
 import routes from './routes'
-import User from './models/User'
-import Chapter from './models/Chapter'
 
 var app = express();
 dotenv.config();
@@ -16,6 +13,7 @@ dotenv.config();
 const db = connectDB()
 
 app.use(logger("dev"));
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
