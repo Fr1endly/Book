@@ -1,5 +1,4 @@
-import uuidv4 from 'uuid'
-import models from '../models'
+import auth from '../middleware/auth'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import express, { response } from 'express'
@@ -7,6 +6,27 @@ import User from '../models/User'
 import { check, validationResult } from 'express-validator'
 
 const router = express.Router();
+
+// @route GET api/users
+// @desc Get list of all users
+// @access Private, 
+router.get('/', auth,
+    async (req, res) => {
+        // Check if authed user have admin rights
+        try {
+            const user = await User.findById(req.user.id)
+            if (user.isAdmin) {
+               const userList = await User.find().sort({ date: -1 })
+               res.json(userList)
+            } else {
+                res.status(400).json({errors: [{msg: "Not authorized."}]})
+            }
+        } catch(err) {
+            console.log(err.message)
+            res.status(500).send('Server error')
+        }
+    }
+)
 
 // @route POST api/users
 // @desc Register user

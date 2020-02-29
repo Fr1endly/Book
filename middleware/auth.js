@@ -10,7 +10,7 @@ export default async (req, res, next) => {
     try {
         await jwt.verify(token, process.env.JWT_SECRET, (error, decode) => {
             if(error) {
-                res.status(4001).json({msg: 'Token is not valid '})
+                res.status(401).json({msg: 'Token is not valid '})
             }
             else {
                 req.user = decode.user;

@@ -23,6 +23,7 @@ router.get('/', auth,
     }
 )
 
+
 // @route    POST api/auth
 // @desc     Authenticate user & get token
 // @access   Public
