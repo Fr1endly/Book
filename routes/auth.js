@@ -15,6 +15,7 @@ router.get('/', auth,
     async (req, res) => {
         try {
             const user = await User.findById(req.user.id).select('-password')
+            console.log(req.user)
             res.json(user)
         } catch(err) {
             console.error(err.message)
@@ -43,12 +44,15 @@ router.post('/', [
         if (!user) {
             return res.status(400).json({ errors: [{ msg: 'Invalid credentials.'}]})
         }
-
         const isMatch = await bcrypt.compare(password, user.password)
-        console.log(isMatch)
         if (!isMatch) {
             return res.status(400).json({ errors: [{msg: 'Invalid credentials.'}]})
         }
+        if (!user.isActive) {
+            return res.status(400).json({ errors: [{ msg: 'User is not activated by admin.'}]})
+        }
+        user.lastLoginDate = Date.now()
+        await user.save()
 
         const payload = {
             user: {

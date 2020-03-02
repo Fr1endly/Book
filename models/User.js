@@ -18,6 +18,14 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    lastLoginDate: {
+        type: Date,
+        default: null
+    },
+    isActive: {
+        type: Boolean,
+        default: false
+    },
     isAdmin: {
         type: Boolean,
         default: false

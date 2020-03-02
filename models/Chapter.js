@@ -10,15 +10,17 @@ const chapterSchema = new mongoose.Schema({
             type: Number,
             required: true
         },
-        sections: [{
-            index: Number,
-            title: {
-                type: String,
-                required: true,
-                unique: true
-            },
-            text: String
-        }]
+        sections: [
+            {
+                index: Number,
+                title: {
+                    type: String,
+                    required: true,
+                    unique: true
+                },
+                text: String // Slate state object 
+            }
+        ]
 })
 
 const Chapter = mongoose.model('chapter', chapterSchema)
