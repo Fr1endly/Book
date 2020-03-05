@@ -32,6 +32,6 @@ app.use("/api/auth", userRoutes.authRouter);
 //  Chapters
 app.use("/api/chapters", userRoutes.chaptersRouter);
 // Admin
-app.use("/api/admin", adminRoutes);
+app.use("/admin", adminRoutes);
 
 module.exports = app;

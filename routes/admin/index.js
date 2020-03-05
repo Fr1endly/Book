@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import auth from "../../middleware/auth";
-import express, { response } from "express";
+import express from "express";
 import User from "../../models/User";
 import { check, validationResult } from "express-validator";
+import mongoose from "mongoose";
+import Axios from "axios";
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ const router = express.Router();
 
 router.post(
   "/users",
-  [auth],
+  [auth, [check("email", "Please provide valid email").isEmail()]],
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -26,7 +27,6 @@ router.post(
       email,
       password,
       date,
-      lastLoginDate,
       isActive,
       isAdmin,
       id // Edited user ID
@@ -35,7 +35,6 @@ router.post(
       name,
       email,
       date: date ? date : Date.now(),
-      lastLoginDate,
       isActive,
       isAdmin
     };
@@ -52,7 +51,7 @@ router.post(
       }
 
       await User.findOneAndUpdate(
-        { _id: id },
+        { _id: id ? id : mongoose.Types.ObjectId() },
         { $set: userFields },
         { new: true, upsert: true }
       );
@@ -67,7 +66,21 @@ router.post(
 // @@route GET api/admin/users/:userId
 // @@desc Create or Edit user
 // @@access Private, authorization protected
+router.get("/users/:userId", auth, async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.user.id);
+    if (!currentUser.isAdmin) {
+      return res.status(400).json({ errors: [{ msg: "Not authorized." }] });
+    }
 
-router.get("/users/:userId");
+    const user = await User.findOne({ id: req.params.userID });
+    res.json(user);
+  } catch (error) {
+    console.log(error.message);
+    if (error.kind === "ObjectId") {
+      return res.status(400).json({ msg: "User not found" });
+    }
+  }
+});
 
 export default router;

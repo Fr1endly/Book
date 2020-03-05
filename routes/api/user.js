@@ -26,6 +26,10 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @route GET api/users
+// @desc Get list of all users
+// @access Private
+
 // @route POST api/users
 // @desc Register user
 // @access Public
