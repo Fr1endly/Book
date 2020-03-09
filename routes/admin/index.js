@@ -10,7 +10,7 @@ const router = express.Router();
 
 // @@route POST api/admin/users
 // @@desc Create or Edit user
-// @@access Private, authorization protected
+// @@access Private, role protected
 
 router.post(
   "/users",
@@ -64,8 +64,8 @@ router.post(
 );
 
 // @@route GET api/admin/users/:userId
-// @@desc Create or Edit user
-// @@access Private, authorization protected
+// @@desc Get user based by it id.
+// @@access Private, role protected
 router.get("/users/:userId", auth, async (req, res) => {
   try {
     const currentUser = await User.findById(req.user.id);
@@ -73,13 +73,34 @@ router.get("/users/:userId", auth, async (req, res) => {
       return res.status(400).json({ errors: [{ msg: "Not authorized." }] });
     }
 
-    const user = await User.findOne({ id: req.params.userID });
-    res.json(user);
+    const user = await User.findOne({ _id: req.params.userId });
+    const { name, email, isActive, isAdmin } = user;
+    const formData = { name, email, isAdmin, isActive };
+
+    res.json(formData);
   } catch (error) {
     console.log(error.message);
     if (error.kind === "ObjectId") {
       return res.status(400).json({ msg: "User not found" });
     }
+  }
+});
+
+router.delete("/users/:userId", auth, async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.user.id);
+    if (!currentUser.isAdmin) {
+      return res.status(400).json({ errors: [{ msg: "Not authorized." }] });
+    }
+
+    await User.findOneAndDelete({ _id: req.params.userId });
+    res.json({ msg: "User succesfuly deleted " });
+  } catch (error) {
+    console.log(error.message);
+    if (error.kind === "ObjectId") {
+      return res.status(400).json({ msg: "User not found" });
+    }
+    res.status(500).send("Server Error");
   }
 });
 
