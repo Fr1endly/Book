@@ -9,7 +9,7 @@ const seedDB = async () => {
 
   const admin = new User({
     name: "admin",
-    email: "admin@admin.ad",
+    email: "admin@gmail.com",
     isActive: true,
     isAdmin: true
   });
@@ -23,7 +23,9 @@ const seedDB = async () => {
     admin.password = await bcrypt.hash("loselose", salt);
     user.password = await bcrypt.hash("loselose", salt);
     await admin.save();
+    console.log(admin);
     await user.save();
+    console.log(user);
     console.log("Finished seeding database.");
   } catch (error) {
     console.log(error);
