@@ -4,13 +4,14 @@ import { Router } from "express";
 import Chapter from "../../models/Chapter";
 const router = Router();
 
+// @Route GET api/chapters
+// @@ Desc Get all chapters
 router.get("/", async (req, res) => {
   try {
-    const chapters = await Chapter.find().sort({ index: +1 });
-    res.json(chapters);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send("Server error");
+    const chapterList = await Chapter.find({});
+    res.json(chapterList);
+  } catch (error) {
+    res.status(400).json({ msg: "Something went wrong with finding chapters" });
   }
 });
 
@@ -32,7 +33,7 @@ router.post("/", async (req, res) => {
     chapter = new Chapter({
       title,
       index,
-      sections
+      sections,
     });
     await chapter.save();
     res.json(chapter);
