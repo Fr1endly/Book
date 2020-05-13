@@ -19,6 +19,8 @@ router.get("/:chapterId", (req, res) => {
   return res.send(models.chapters[req.params.chapterId]);
 });
 
+// @@ Route POST api/chapters.
+// @@Desc Save new chapter to DB.
 router.post("/", async (req, res) => {
   const { title, index, sections } = req.body;
 
@@ -35,6 +37,7 @@ router.post("/", async (req, res) => {
       index,
       sections,
     });
+
     await chapter.save();
     res.json(chapter);
   } catch (err) {
@@ -42,6 +45,7 @@ router.post("/", async (req, res) => {
     res.status(500).send("Server error.");
   }
 });
+
 router.put("/:chapterId", (req, res) => {
   const id = req.params.chapterId;
   const { [id]: chapter } = models.chapters;
