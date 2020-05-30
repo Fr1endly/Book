@@ -34,6 +34,7 @@ router.get("/:id", auth, async (req, res) => {
 
 // @@ Route POST api/chapters.
 // @@Desc Save new chapter to DB.
+// @@Access Private
 router.post(
   "/",
   [check("title", "Title is required").not().isEmpty()],
@@ -69,14 +70,22 @@ router.post(
   }
 );
 
-router.put("/:chapterId", (req, res) => {
-  const id = req.params.chapterId;
-  const { [id]: chapter } = models.chapters;
-  chapter.title = req.body.title;
-  chapter.userId = req.body.userId;
-  chapter.sections = req.body.sections;
+router.post("/:id", async (req, res) => {
+  const { title, index, sections } = req.body;
+  const id = req.params.id;
 
-  res.send(chapter);
+  try {
+    await Chapter.findOneAndUpdate(
+      { _id: id },
+      { $set: { title, index, sections } },
+      { new: true }
+    );
+
+    res.json({ msg: "Success" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server error");
+  }
 });
 
 router.delete("/:chapterId", (req, res) => {

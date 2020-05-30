@@ -29,14 +29,14 @@ router.post(
       date,
       isActive,
       isAdmin,
-      id // Edited user ID
+      id, // ID of user account being edited
     } = req.body;
     const userFields = {
       name,
       email,
       date: date ? date : Date.now(),
       isActive,
-      isAdmin
+      isAdmin,
     };
 
     try {
@@ -63,7 +63,7 @@ router.post(
   }
 );
 
-// @@route GET api/admin/users/:userId
+// @@route GET admin/users/:userId
 // @@desc Get user based by it id.
 // @@access Private, role protected
 router.get("/users/:userId", auth, async (req, res) => {
@@ -86,6 +86,8 @@ router.get("/users/:userId", auth, async (req, res) => {
   }
 });
 
+// @@route DEL admin/users/:userId
+// @@
 router.delete("/users/:userId", auth, async (req, res) => {
   try {
     const currentUser = await User.findById(req.user.id);

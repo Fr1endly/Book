@@ -26,23 +26,17 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// @route GET api/users
-// @desc Get list of all users
-// @access Private
-
 // @route POST api/users
 // @desc Register user
 // @access Public
 router.post(
   "/",
   [
-    check("name", "Name is required.")
-      .not()
-      .isEmpty(),
+    check("name", "Name is required.").not().isEmpty(),
     check("email", "Please provide valid email.").isEmail(),
     check("password", "Enter password with 8 or more characters.").isLength({
-      min: 6
-    })
+      min: 6,
+    }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -63,7 +57,7 @@ router.post(
       user = new User({
         name,
         email,
-        password
+        password,
       });
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
@@ -71,8 +65,8 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
       jwt.sign(
         payload,
