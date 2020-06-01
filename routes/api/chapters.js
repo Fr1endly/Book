@@ -1,7 +1,7 @@
 import auth from "../../middleware/auth";
 import { check, validationResult } from "express-validator";
-import models from "../../models";
 import { Router } from "express";
+import mongoose from "mongoose";
 import Chapter from "../../models/Chapter";
 const router = Router();
 
@@ -70,7 +70,10 @@ router.post(
   }
 );
 
-router.post("/:id", async (req, res) => {
+// @@ Route POST api/chapters/:id
+// @@ Desc Edit chapter from admin panel
+// @@ Access Private
+router.post("/:id", auth, async (req, res) => {
   const { title, index, sections } = req.body;
   const id = req.params.id;
 
@@ -88,11 +91,20 @@ router.post("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:chapterId", (req, res) => {
-  const { [req.params.chapterId]: chapter, ...rest } = models.chapters;
+// @@ Route DELETE api/chapter/:id
+// @@ Desc Delete chapter by id from admin panel
+// @@ Access Private
+router.delete("/:chapterId", async (req, res) => {
+  const id = mongoose.Types.ObjectId(req.params.chapterId);
 
-  models.chapters = rest;
-  res.send(chapter);
+  try {
+    await Chapter.deleteOne({ _id: id });
+
+    res.json({ msg: "Success" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Server error");
+  }
 });
 
 export default router;
