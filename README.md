@@ -51,7 +51,9 @@ Back end.
 - [Express.js](https://expressjs.com/)
 - [MongoDB](https://www.mongodb.com/) / [Mongoose.js](https://mongoosejs.com/)
 - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-  Front end.
+
+Front end.
+
 - [React.js](https://reactjs.org/)
 - [Redux.js](https://redux.js.org/)
 - [Material-ui](https://material-ui.com/)
