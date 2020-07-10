@@ -5,10 +5,6 @@
 *** Thanks again! Now go create something AMAZING! :D
 -->
 
-
-
-
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -17,22 +13,16 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
+
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">Role & Roll</h3>
 
   <p align="center">
@@ -45,11 +35,9 @@
   </p>
 </p>
 
-
 <!-- ABOUT THE PROJECT -->
-## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+## About The Project
 
 Web site for Role & Roll fantasy table top role playing system and it's community.
 Game rules designed by Maxim Yanushkin
@@ -57,23 +45,26 @@ Game rules designed by Maxim Yanushkin
 Work in progress.
 
 ### Built With
-Back end.
-* [Express.js](https://expressjs.com/)
-* [MongoDB](https://www.mongodb.com/) / [Mongoose.js](https://mongoosejs.com/)
-* [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-Front end.
-* [React.js](https://reactjs.org/)
-* [Redux.js](https://redux.js.org/)
-* [Material-ui](https://material-ui.com/)
 
+Back end.
+
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/) / [Mongoose.js](https://mongoosejs.com/)
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+  Front end.
+- [React.js](https://reactjs.org/)
+- [Redux.js](https://redux.js.org/)
+- [Material-ui](https://material-ui.com/)
 
 <!-- CONTACT -->
+
 ## Contact
 
-Oskars Gizatulin - GizatulinsO@gmail.com  
+Oskars Gizatulin - GizatulinsO@gmail.com
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=flat-square
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=flat-square
