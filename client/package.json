@@ -1,0 +1,52 @@
+{
+  "title": "Material demo",
+  "devDependencies": {
+    "react-scripts": "latest"
+  },
+  "description": "https://github.com/mui-org/material-ui/blob/master/docs/src/pages/components/app-bar/ButtonAppBar.js",
+  "dependencies": {
+    "@material-ui/core": "^4.10.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.55",
+    "axios": "^0.19.2",
+    "escape-html": "^1.0.3",
+    "is-hotkey": "^0.1.6",
+    "is-url": "^1.2.4",
+    "lodash": "^4.17.15",
+    "rea": "0.0.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "redux": "^3.1.0 || ^4.0.0",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
+    "slate": ">=0.55.0",
+    "slate-history": "^0.57.1",
+    "slate-react": "^0.57.1",
+    "undefined": "^0.1.0",
+    "uuid": "^3.4.0"
+  },
+  "keywords": [],
+  "name": "ui-rewrite",
+  "version": "0.0.69",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
