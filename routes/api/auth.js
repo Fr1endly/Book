@@ -142,15 +142,13 @@ router.get("/reset/:ident/:time-:hash", async (req, res) => {
   const { ident, time, hash } = req.params;
 
   const serverTime = new Date().getTime();
-  const dayInSeconds = 86400000;
+  const dayTimeSeconds = 86400000;
 
-  const name = ident.toString(36);
-
-  console.log(ident.toString(36));
-
-  if (serverTime - parseInt(time, 36) > dayInSeconds) {
+  if (serverTime - parseInt(time, 36) > dayTimeSeconds) {
     res.status(400).json({ errors: [{ msg: "Outdated link." }] });
   }
+
+  const name = Number(ident).toString(36);
 
   try {
     const user = await User.findOne({ name });
@@ -159,9 +157,13 @@ router.get("/reset/:ident/:time-:hash", async (req, res) => {
     }
 
     const str = `${user._id}${user.lastLoginDate}${user.password}`;
-
     const isMatch = await bcrypt.compare(str, hash);
-    console.log(isMatch);
+
+    if (!isMatch) {
+      res.status(400).json({ errors: [{ msg: "Invalid link" }] });
+    }
+
+    res.json({ msg: "Success." });
   } catch (error) {
     console.log(error);
   }
