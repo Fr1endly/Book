@@ -5,21 +5,17 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import { Link as RouterLink } from "react-router-dom";
 import { logout } from "../../actions/auth";
 import { openDrawer } from "../../actions/layout";
-import Autocomplete, {
-  createFilterOptions,
-} from "@material-ui/lab/Autocomplete";
+import SearchBox from "./SearchBox";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -98,11 +94,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const filterOptions = createFilterOptions({
-  stringify: (option) => option.title,
-  stringify: (option) => option.sections,
-});
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -237,50 +228,7 @@ export default connect(mapStateToProps, { logout, openDrawer })(
             <Typography className={classes.title} variant="h6" noWrap>
               R&R
             </Typography>
-            <div className={classes.search}>
-              {/* <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div> */}
-              {/* <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              /> */}
-              <Autocomplete
-                autoHighlight
-                freeSolo
-                value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-                inputValue={inputValue}
-                onInputChange={(event, newInputValue) => {
-                  setInputValue(newInputValue);
-                }}
-                id="search"
-                options={chapters}
-                getOptionLabel={(option) => option.title}
-                filterOptions={filterOptions}
-                style={{ width: 300 }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Search"
-                    InputProps={{
-                      ...params.InputProps,
-                      disableUnderline: true,
-                      classes: {
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                      },
-                    }}
-                  />
-                )}
-              />
-            </div>
+            <SearchBox />
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               {!loading && (isAuthenicated ? authLinks : guestLinks)}
