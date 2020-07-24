@@ -12,6 +12,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { startCase } from "lodash";
 import { closeDrawer, selectListItem } from "../../actions/layout";
 import { fetchChapters } from "../../actions/ruleBook";
+import { getNews } from "../../actions/news";
 import { connect } from "react-redux";
 
 const drawerWidth = 240;
@@ -42,6 +43,7 @@ const mapStateToProps = (state) => ({
   open: state.layout.open,
   selectedIndex: state.layout.selectedListItem,
   chapters: state.ruleBook.chapters,
+  user: state.auth.user,
 });
 
 const ListItemLink = (props) => (
@@ -52,24 +54,26 @@ export default connect(mapStateToProps, {
   closeDrawer,
   selectListItem,
   fetchChapters,
+  getNews,
 })(
   ({
+    user, //for useEffect to load chapters after login
     open,
     closeDrawer,
     chapters,
     selectListItem,
     selectedIndex,
     fetchChapters,
+    getNews,
   }) => {
     const classes = useStyles();
     const theme = useTheme();
     const [listOpen, setListOpen] = React.useState(false);
 
-    // React.useEffect(() => {
-    //   setTimeout(() => {
-    //     fetchChapters();
-    //   }, 1000);
-    // }, [fetchChapters]);
+    React.useEffect(() => {
+      fetchChapters();
+      getNews();
+    }, [fetchChapters, getNews, user]);
 
     const handleClick = () => {
       setListOpen(!listOpen);
@@ -92,13 +96,15 @@ export default connect(mapStateToProps, {
       >
         <div className={classes.offset} />
         <List>
-          <ListItem
+          <ListItemLink
             button
             selected={selectedIndex === "news"}
             onClick={(event) => handleListItemClick(event, "news")}
+            to="/news"
           >
             <ListItemText primary="News" />
-          </ListItem>
+          </ListItemLink>
+
           <ListItem
             button
             selected={selectedIndex === "documentation"}
@@ -111,6 +117,7 @@ export default connect(mapStateToProps, {
               <ExpandMore onClick={(e) => handleClick()} />
             )}
           </ListItem>
+
           <Collapse in={listOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {chapters.map((chapter, index) => (
@@ -129,6 +136,7 @@ export default connect(mapStateToProps, {
               ))}
             </List>
           </Collapse>
+
           <ListItem
             button
             selected={selectedIndex === "planner"}

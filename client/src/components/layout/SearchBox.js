@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
 import InputBase from "@material-ui/core/InputBase";
 import Popper from "@material-ui/core/Popper";
 import { fade, makeStyles } from "@material-ui/core/styles";
@@ -78,7 +77,7 @@ export default () => {
     } else {
       setAnchorEl(null);
     }
-  }, [filteredSuggestions]);
+  }, [filteredSuggestions, inputRef, userInput]);
 
   const handleClick = (e) => {
     setAnchorEl(null);

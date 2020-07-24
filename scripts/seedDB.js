@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import User from "../models/User";
+import News from "../models/News";
 import Chapter from "../models/Chapter";
 import bcrypt from "bcrypt";
 
@@ -8,6 +8,9 @@ const seedDB = async (password) => {
     if (err) console.log(err);
   });
   Chapter.remove({}, (err) => {
+    if (err) console.log(err);
+  });
+  News.remove({}, (err) => {
     if (err) console.log(err);
   });
 

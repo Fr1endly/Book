@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { saveChapter, editChapter } from "../../../actions/ruleBook";
+import { saveNewsPost } from "../../../actions/news";
+import { closeModal } from "../../../actions/layout";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -23,12 +25,19 @@ const mapStateToprops = (state) => ({
   chapter: state.admin.chapter,
 });
 
-export default connect(mapStateToprops, { saveChapter, editChapter })(
+export default connect(mapStateToprops, {
+  saveChapter,
+  editChapter,
+  saveNewsPost,
+  closeModal,
+})(
   withRouter(
     ({
       match,
       saveChapter,
       editChapter,
+      saveNewsPost,
+      closeModal,
       slateValue,
       edit,
       history,
@@ -36,48 +45,82 @@ export default connect(mapStateToprops, { saveChapter, editChapter })(
     }) => {
       const classes = useStyles();
       const [option, setOption] = useState("");
-      const [formValue, setFormValue] = useState({
+      const [chapterValue, setChapterValue] = useState({
         title: "",
         index: 0,
       });
+      const [newsTitle, setNewsTitle] = useState("");
 
       if (edit) {
         useEffect(() => {
           const { title, index } = chapter;
-          setFormValue({ title, index });
-        }, []);
+          setChapterValue({ title, index });
+        }, [chapter]);
       }
 
       const handleOptionChange = (e) => setOption(e.target.value);
 
       const handleChange = (e) => {
-        setFormValue({
-          ...formValue,
+        setChapterValue({
+          ...chapterValue,
           [e.target.name]: e.target.value,
         });
       };
 
+      const handleNewsTitleChange = (e) => setNewsTitle(e.target.value);
+
       const handleSubmit = (e) => {
         e.preventDefault();
 
-        const chapter = {
-          ...formValue,
-          sections: JSON.stringify(slateValue),
-        };
+        if (option === "Rulebook chapter") {
+          const chapter = {
+            ...chapterValue,
+            sections: JSON.stringify(slateValue),
+          };
 
-        if (edit) {
-          editChapter(chapter, history, match.params.id);
-        } else {
-          saveChapter(chapter, history);
+          if (edit) {
+            editChapter(chapter, history, match.params.id);
+            closeModal();
+          } else {
+            saveChapter(chapter, history);
+            closeModal();
+          }
+        } else if (option === "News") {
+          const text = JSON.stringify(slateValue);
+          const newsPost = {
+            title: newsTitle,
+            text,
+          };
+          saveNewsPost(newsPost);
+          closeModal();
         }
       };
 
-      return (
-        <div className={classes.root}>
-          {console.log(edit)}
+      const newsSection = (
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div>
             <TextField
-              id="standard-select-currency"
+              onChange={(e) => handleNewsTitleChange(e)}
+              name="title"
+              value={newsTitle}
+              type="text"
+              label="Title"
+              className={classes.input}
+            />
+          </div>
+          <div>
+            <Button type="submit" color="primary">
+              Save news post.
+            </Button>
+          </div>
+        </form>
+      );
+
+      return (
+        <div className={classes.root}>
+          <div>
+            <TextField
+              id="select-content"
               select
               label="Select"
               value={option}
@@ -97,7 +140,7 @@ export default connect(mapStateToprops, { saveChapter, editChapter })(
                 <TextField
                   onChange={(e) => handleChange(e)}
                   name="title"
-                  value={formValue.title}
+                  value={chapterValue.title}
                   type="text"
                   label="Title"
                   className={classes.input}
@@ -107,7 +150,7 @@ export default connect(mapStateToprops, { saveChapter, editChapter })(
                 <TextField
                   onChange={(e) => handleChange(e)}
                   name="index"
-                  value={formValue.index}
+                  value={chapterValue.index}
                   label="Index"
                   className={classes.input}
                   type="number"
@@ -119,7 +162,9 @@ export default connect(mapStateToprops, { saveChapter, editChapter })(
                 </Button>
               </div>
             </form>
-          ) : null}
+          ) : (
+            newsSection
+          )}
         </div>
       );
     }

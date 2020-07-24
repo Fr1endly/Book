@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { register } from "../../actions/auth";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";

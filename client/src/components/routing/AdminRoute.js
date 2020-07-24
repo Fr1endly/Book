@@ -1,7 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 const AdminRoute = (
   { component: Component, auth: { isAuthenicated, loading, isAdmin }, ...rest } // Same as !isAuthenicated && !loading && !isAdmin ? expression1 : expression2

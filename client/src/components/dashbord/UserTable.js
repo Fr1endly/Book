@@ -1,10 +1,7 @@
 import React, { useEffect, Fragment } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { getUsers, getUserById } from "../../actions/admin";
-
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -23,7 +20,7 @@ const UserTable = ({ users, getUsers, getUserById }) => {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [getUsers]);
 
   return (
     <Fragment>

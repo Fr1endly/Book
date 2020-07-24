@@ -26,7 +26,7 @@ const UserTable = ({ chapters, fetchChapters, deleteChapter }) => {
 
   useEffect(() => {
     fetchChapters();
-  }, []);
+  }, [fetchChapters]);
 
   return (
     <Fragment>

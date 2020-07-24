@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import UserView from "./UserView";
 import UserTable from "./UserTable";
 import ChaptersTable from "./ChaptersTable";
+import NewsTable from "./NewsTable";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
@@ -82,6 +83,7 @@ function AdminPanel({ user }) {
       >
         <Tab label="Users" {...a11yProps(0)} />
         <Tab label="Rulebook" {...a11yProps(0)} />
+        <Tab label="News" {...a11yProps(0)} />
       </Tabs>
       <main className={classes.content}>
         <Container maxWidth="lg" className={classes.container}>
@@ -104,6 +106,15 @@ function AdminPanel({ user }) {
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <ChaptersTable />
+                </Paper>
+              </Grid>
+            </Grid>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <NewsTable />
                 </Paper>
               </Grid>
             </Grid>

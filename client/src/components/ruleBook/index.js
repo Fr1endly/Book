@@ -24,6 +24,7 @@ const useStyles = makeStyles(({ breakpoints }) => ({
     maxWidth: "700px",
     margin: "0 auto",
     fontSize: "18px",
+    fontWeight: "300",
 
     "& p": {
       fontSize: "1em",
@@ -67,10 +68,13 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(
   withRouter(({ match, chapters }) => {
     const classes = useStyles();
+    let activeChapter;
 
-    const activeChapter = chapters.filter(
-      (chapter) => chapter.title === match.params.title
-    )[0];
+    if (chapters) {
+      activeChapter = chapters.filter(
+        (chapter) => chapter.title === match.params.title
+      )[0];
+    }
 
     const htmlContent = activeChapter
       ? CustomEditor.serialiseHtmlFromValue(JSON.parse(activeChapter.sections))
@@ -84,9 +88,12 @@ export default connect(mapStateToProps)(
           marginBottom: "2rem",
         }}
       >
-        <Typography variant="h3">{startCase(activeChapter.title)}</Typography>
+        <Typography variant="h3">
+          {startCase(activeChapter ? activeChapter.title : undefined)}
+        </Typography>
         <Typography variant="overline">
-          Chapter: {activeChapter.index} / {chapters.length - 1}
+          Chapter: {activeChapter ? activeChapter.index : undefined} /{" "}
+          {chapters.length - 1}
         </Typography>
         <Divider />
       </div>

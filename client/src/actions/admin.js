@@ -1,16 +1,12 @@
-import axios from "axios";
 import { GET_USERS, GET_USER_BY_ID, CLEAR_USER } from "./types";
 import setAuthToken from "../utils/setAuthToken";
+import api from "../utils/api";
 import { setAlert } from "./alert";
 
 // Fetch all users
 export const getUsers = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
   try {
-    const res = await axios.get("http://localhost:3000/api/users");
+    const res = await api.get("http://localhost:3000/api/users");
     dispatch({
       type: GET_USERS,
       payload: res.data,
@@ -27,10 +23,6 @@ export const getUsers = () => async (dispatch) => {
 export const createOrEditUser = (formData, edit = false) => async (
   dispatch
 ) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -40,7 +32,7 @@ export const createOrEditUser = (formData, edit = false) => async (
   const body = JSON.stringify(formData);
 
   try {
-    await axios.post("http://localhost:3000/admin/users", body, config);
+    await api.post("http://localhost:3000/admin/users", body, config);
 
     dispatch(
       setAlert(edit ? "User succesfuly edited" : "User created", "success")
@@ -60,7 +52,7 @@ export const getUserById = (id) => async (dispatch) => {
   }
 
   try {
-    const res = await axios.get(`http://localhost:3000/admin/users/${id}`);
+    const res = await api.get(`http://localhost:3000/admin/users/${id}`);
     const payload = {
       ...res.data,
       id: id,
@@ -79,7 +71,7 @@ export const deleteUser = (id) => async (dispatch) => {
     setAuthToken(localStorage.token);
   }
   try {
-    await axios.delete(`http://localhost:3000/admin/users/${id}`);
+    await api.delete(`http://localhost:3000/admin/users/${id}`);
   } catch (err) {
     console.log(err);
   }

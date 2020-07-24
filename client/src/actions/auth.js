@@ -9,29 +9,24 @@ import {
   LOGOUT,
   ADMIN_LOADED,
   SET_ERROR,
-  CLEAR_ERROR,
 } from "./types";
 import { setAlert } from "./alert";
-import setAuthToken from "../utils/setAuthToken";
+import api from "../utils/api";
 
 //LOAD USER
 export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
-
   try {
-    // We get User object -password field in response
-    const res = await axios.get("http://localhost:3000/api/auth");
-    res.data.isAdmin
-      ? dispatch({
-          type: ADMIN_LOADED,
-          payload: res.data,
-        })
-      : dispatch({
-          type: USER_LOADED,
-          payload: res.data,
-        });
+    const res = await api.get("/auth");
+    if (res.data.isAdmin) {
+      dispatch({
+        type: ADMIN_LOADED,
+        payload: res.data,
+      });
+    }
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data,
+    });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
@@ -64,19 +59,13 @@ export const login = ({ email, password }) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+      errors.forEach((error) => dispatch(setAlert(error.msg, "error")));
       /////////////
       errors.forEach((err) => {
         dispatch({
           type: SET_ERROR,
           payload: err.msg,
         });
-
-        // setTimeout(() => {
-        //   dispatch({
-        //     type: CLEAR_ERROR,
-        //   });
-        // }, 3000);
       });
     }
     dispatch({

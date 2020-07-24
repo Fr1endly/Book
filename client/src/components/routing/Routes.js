@@ -8,6 +8,8 @@ import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
 import SlateEditor from "../editor/SlateEditor";
 import RuleBook from "../ruleBook/";
+import NewsList from "../News/NewsList";
+import NewsItem from "../News/NewsItem";
 // import AdminUserView from "../../components/admin/AdminUserView";
 // import AdminPanelMat from "../../components/admin/AdminPanelMat";
 // import AdminCreateUser from "../../components/admin/AdminCreateUser";
@@ -23,6 +25,8 @@ const Routes = () => {
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <PrivateRoute path="/rulebook/:title" component={RuleBook} />
+        <PrivateRoute exact path="/news" component={NewsList} />
+        <Route path="/news/:title" component={NewsItem} />
         <AdminRoute exact path="/admin" component={Dashbord} />
         <AdminRoute exact path="/admin/editor" component={SlateEditor} />
         <AdminRoute

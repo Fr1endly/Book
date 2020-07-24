@@ -84,8 +84,8 @@ const CustomEditor = {
   serialiseHtmlfromNode(node) {
     if (Text.isText(node)) {
       if (node["bold"]) return `<strong>${escapeHtml(node.text)}</strong>`;
-      if (node["code"]) return `<code>${escapeHtml(node.text)}</code>;`;
-      if (node["italic"]) return `<em>${escapeHtml(node.text)}</em>;`;
+      if (node["code"]) return `<code>${escapeHtml(node.text)}</code>`;
+      if (node["italic"]) return `<em>${escapeHtml(node.text)}</em>`;
       if (node["underline"]) return `<u>${escapeHtml(node.text)}</u>`;
       else return escapeHtml(node.text);
     }
@@ -95,7 +95,7 @@ const CustomEditor = {
       .join("");
 
     switch (node.type) {
-      case "quote":
+      case "block-quote":
         return `<blockquote>${children}</blockquote>`;
       case "paragraph":
         return `<p>${children}</p>`;

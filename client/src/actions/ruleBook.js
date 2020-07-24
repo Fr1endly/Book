@@ -1,21 +1,17 @@
 import {
-  SET_DRAWER_OPEN,
-  SET_DRAWER_CLOSE,
-  TOGGLE_DRAWER,
   LOAD_CHAPTERS,
-  SELECT_CHAPTER,
   REMOVE_CHAPTER,
   FILTER_CHAPTERS,
   CLEAR_FILTERED_CHAPTERS,
 } from "./types";
 import { setAlert } from "./alert";
-import axios from "axios";
 import { camelCase } from "lodash";
+import api from "../utils/api";
 
 // FETCH chapters and sort them.
 export const fetchChapters = () => async (dispatch) => {
   try {
-    const res = await axios.get("http://localhost:3000/api/chapters");
+    const res = await api.get("/chapters");
     dispatch({
       type: LOAD_CHAPTERS,
       payload: res.data.sort((a, b) => a.index - b.index),
@@ -39,9 +35,9 @@ export const saveChapter = (chapter, history) => async (dispatch) => {
   });
 
   try {
-    await axios.post("http://localhost:3000/api/chapters", body, config);
-    history.push(`/rulebook/${camelCase(chapter.title)}`);
+    await api.post("/chapters", body, config);
     fetchChapters();
+    dispatch(setAlert("Succesfully added new rule book chapter", "success"));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -53,7 +49,7 @@ export const saveChapter = (chapter, history) => async (dispatch) => {
 // Select active chapter for editing
 export const getChapterById = (id) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:3000/api/chapters/${id}`);
+    const res = await api.get(`http://localhost:3000/api/chapters/${id}`);
     const chapter = res.data;
     dispatch({
       type: "SELECT_CHAPTER",
@@ -78,7 +74,7 @@ export const editChapter = (chapter, history, id) => async (dispatch) => {
   });
 
   try {
-    await axios.post(`http://localhost:3000/api/chapters/${id}`, body, config);
+    await api.post(`http://localhost:3000/api/chapters/${id}`, body, config);
     history.push(`/admin/`);
   } catch (error) {
     const errors = error.response.data.errors;
@@ -91,7 +87,7 @@ export const editChapter = (chapter, history, id) => async (dispatch) => {
 // DELETE chapter from admin panel
 export const deleteChapter = (id) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:3000/api/chapters/${id}`);
+    await api.delete(`http://localhost:3000/api/chapters/${id}`);
     dispatch({
       type: REMOVE_CHAPTER,
       payload: id,

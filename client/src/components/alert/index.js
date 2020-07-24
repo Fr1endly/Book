@@ -22,7 +22,7 @@ export default connect(mapStateToProps)(({ alerts }) => {
     alerts !== null &&
     alerts.length > 0 &&
     alerts.map((alert) => (
-      <Alert severity="error" key={alert.id}>
+      <Alert severity={alert.alertType} key={alert.id}>
         {alert.msg}
       </Alert>
     ))

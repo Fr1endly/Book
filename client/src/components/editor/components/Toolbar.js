@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BlockButton from "./BlockButton";
 import MarkButton from "./MarkButton";
@@ -20,8 +20,6 @@ import LooksTwoIcon from "@material-ui/icons/LooksTwo";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,19 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Toolbar = ({ slateValue, edit }) => {
   const classes = useStyles();
-  const [formValue, setFormValue] = useState({
-    title: "",
-    index: 0,
-  });
-
-  const handleChange = (e) => {
-    setFormValue({
-      ...formValue,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = null;
 
   return (
     <div className={classes.root}>

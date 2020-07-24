@@ -31,6 +31,8 @@ app.use("/api/users", userRoutes.userRouter);
 app.use("/api/auth", userRoutes.authRouter);
 //  Chapters
 app.use("/api/chapters", userRoutes.chaptersRouter);
+// News
+app.use("/api/news", userRoutes.newsRouter);
 // Admin
 app.use("/admin", adminRoutes);
 

@@ -5,7 +5,6 @@ import store from "./store";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { loadUser } from "./actions/auth";
-import { fetchChapters } from "./actions/ruleBook";
 import Header from "./components/layout/Header";
 import Content from "./components/Content";
 import Drawer from "./components/layout/Drawer";
@@ -28,11 +27,8 @@ export default () => {
   const classes = useStyles();
 
   useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
+    setAuthToken(localStorage.token);
     store.dispatch(loadUser());
-    store.dispatch(fetchChapters());
   }, []);
 
   return (
@@ -41,6 +37,7 @@ export default () => {
         <Router>
           <Header />
           <Drawer />
+          {/* Drawer does most of api calls to fetch data */}
           <div className={classes.content}>
             <div className={classes.offset} />
             <Alert />

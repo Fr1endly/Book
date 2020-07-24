@@ -2,6 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import SaveOptionsForm from "./SaveOptionsForm";
+import { connect } from "react-redux";
+import { openModal, closeModal } from "../../../actions/layout";
 
 function getModalStyle() {
   const top = 50;
@@ -27,18 +29,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleModal({ slateValue, edit }) {
+function EditorModal({ slateValue, edit, openModal, closeModal, open }) {
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
-    setOpen(true);
+    openModal();
   };
 
   const handleClose = () => {
-    setOpen(false);
+    closeModal();
   };
 
   const body = (
@@ -63,3 +64,9 @@ export default function SimpleModal({ slateValue, edit }) {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  open: state.layout.editorModal,
+});
+
+export default connect(mapStateToProps, { openModal, closeModal })(EditorModal);

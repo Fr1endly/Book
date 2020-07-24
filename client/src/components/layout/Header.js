@@ -1,11 +1,10 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -110,8 +109,6 @@ export default connect(mapStateToProps, { logout, openDrawer })(
     const classes = useStyles();
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const [value, setValue] = React.useState(null);
-    const [inputValue, setInputValue] = React.useState("");
 
     const handleMobileMenuClose = () => {
       setMobileMoreAnchorEl(null);

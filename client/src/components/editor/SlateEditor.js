@@ -67,10 +67,6 @@ export default connect(mapStateToProps, {
   withRouter(
     ({ getChapterById, match, chapter, chapterId, edit, sections }) => {
       const classes = useStyles();
-      const [formValue, setFormValue] = useState({
-        title: "",
-        index: 0,
-      });
       //Slate editor value
       const [value, setValue] = useState(initialValue);
       const renderElement = useCallback((props) => <Element {...props} />, []);
@@ -88,8 +84,6 @@ export default connect(mapStateToProps, {
           getChapterById(match.params.id);
           if (chapter) {
             setValue(JSON.parse(chapter.sections));
-            const { index, title } = chapter;
-            setFormValue({ title, index });
           }
         }, [getChapterById, match.params.id, chapterId]);
       }

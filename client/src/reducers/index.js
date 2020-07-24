@@ -4,6 +4,7 @@ import alert from "./alert";
 import admin from "./admin";
 import ruleBook from "./ruleBook";
 import layout from "./layout";
+import news from "./news";
 
 export default combineReducers({
   auth,
@@ -11,4 +12,5 @@ export default combineReducers({
   admin,
   ruleBook,
   layout,
+  news,
 });
